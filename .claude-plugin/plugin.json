@@ -1,0 +1,17 @@
+{
+  "name": "delivery",
+  "description": "One pipeline — planning → prioritizing → slicing — that carves a product idea into a shipped MVP. Capture everything, guard the MVP line adversarially, then cut vertical slices until every above-the-line item is demoed. Markdown in git, nothing else. Each skill is self-contained, so it runs on Claude Code or Codex.",
+  "version": "0.1.0",
+  "skills": [
+    "./skills/in-progress/planning",
+    "./skills/in-progress/prioritizing",
+    "./skills/in-progress/slicing"
+  ],
+  "author": {
+    "name": "mr3od"
+  },
+  "homepage": "https://github.com/mr3od/skills",
+  "repository": "https://github.com/mr3od/skills",
+  "license": "MIT",
+  "keywords": ["delivery", "mvp", "vertical-slicing", "lightweight-agile", "planning", "prioritization"]
+}

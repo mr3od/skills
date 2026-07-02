@@ -1,0 +1,16 @@
+{
+  "name": "mr3od-skills",
+  "owner": {
+    "name": "mr3od"
+  },
+  "metadata": {
+    "description": "mr3od's skills marketplace."
+  },
+  "plugins": [
+    {
+      "name": "delivery",
+      "source": "./",
+      "description": "Any defining docs → planning → prioritizing → slicing. Capture everything, guard the MVP line, then cut vertical demos until satisfied."
+    }
+  ]
+}
