@@ -1,6 +1,6 @@
 ---
 name: slicing
-description: Phase 3 of the delivery pipeline. Use after the MVP line is approved to cut, plan, complete, or recut demoable vertical slices from delivery/BACKLOG.md — walking skeleton first, each cut attacked for thinness — until every above-the-line item is demoed and the pipeline reaches Phase: mvp-satisfied.
+description: "Phase 3 of the delivery pipeline. Use after the MVP line is approved to cut, plan, complete, or recut demoable vertical slices from delivery/BACKLOG.md — walking skeleton first, each cut attacked for thinness — until every above-the-line item is demoed and the pipeline reaches Phase: mvp-satisfied."
 argument-hint: "[nothing | plan | done <#> | recut <#>]"
 ---
 
