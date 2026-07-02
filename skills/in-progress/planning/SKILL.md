@@ -1,6 +1,6 @@
 ---
 name: planning
-description: Phase 1 of the delivery pipeline. Use to start or resume product planning from defining docs, notes, rough ideas, brainstorms, or scope documents — create delivery/BACKLOG.md at Phase: planning, confirm the value hypothesis, and capture every capability before the MVP line is drawn. Also handles free capture with `add <idea>`.
+description: "Phase 1 of the delivery pipeline. Use to start or resume product planning from defining docs, notes, rough ideas, brainstorms, or scope documents — create delivery/BACKLOG.md at Phase: planning, confirm the value hypothesis, and capture every capability before the MVP line is drawn. Also handles free capture with `add <idea>`"
 argument-hint: "<paths to defining docs, notes, rough idea> | add <idea>"
 ---
 
