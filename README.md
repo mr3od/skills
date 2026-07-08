@@ -41,7 +41,7 @@ Generates a single self-contained HTML page that teaches what a PR, branch, or d
 layered concept → flows → detail through SWE-analysis diagrams (architecture, ERD, state
 machines, sequence flows, transaction boundaries, recovery/failure views) plus an animated
 step-through storyboard of the key scenario. One full-width diagram per section behind a
-collapsible sidebar, styled after docs.moyasar.com (Readex Pro). No raw diffs — diagrams
+collapsible sidebar, with clean developer-docs typography. No raw diffs — diagrams
 teach, diffs don't. Built for visual learners; a coverage ledger guarantees every changed
 file is taught.
 Lives at [`skills/pr-explainer/`](skills/pr-explainer/).

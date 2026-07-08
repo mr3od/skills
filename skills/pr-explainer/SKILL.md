@@ -101,7 +101,7 @@ Layout — the page must breathe; crowding is a defect:
   Narration sits beside or directly under the visual it explains, never in a wall of
   text.
 
-Style — match the Moyasar-docs look the reader already knows:
+Style — clean developer-docs aesthetic:
 
 - Font **Readex Pro** via the Google Fonts CDN (system-ui fallback); monospace stack
   for code.
