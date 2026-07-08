@@ -33,6 +33,23 @@ value-creation fails without survives; then vertical slices — walking skeleton
 and demoed until every above-the-line item is `done`. Each skill carries its own schema and
 review checklist, so nothing depends on a shared file.
 
+## Skills
+
+### `pr-explainer` — visual teaching page for any change-set
+
+Generates a single self-contained HTML page that teaches what a PR, branch, or diff does —
+layered concept → flows → detail, with Mermaid architecture/state/sequence diagrams, an
+animated step-through storyboard of the key scenario, and diff2html before/after panels.
+Built for visual learners; a coverage ledger guarantees every changed file is taught.
+Lives at [`skills/pr-explainer/`](skills/pr-explainer/).
+
+```
+npx skills add mr3od/skills
+```
+
+The [skills CLI](https://skills.sh) installs it for Claude Code, Codex, and 70+ other agents.
+Then ask: *"explain PR 42 visually"* or *"build a pr-explainer for this branch"*.
+
 ## Install
 
 ### Claude Code
