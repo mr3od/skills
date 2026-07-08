@@ -1,6 +1,6 @@
 ---
 name: pr-explainer
-description: Generate a single-file interactive HTML page that teaches what a PR, branch, or diff changes — layered concept → flows → detail, with architecture diagrams, state/sequence flows, an animated step-through storyboard, and before/after diffs. Use when the user asks to explain a PR or change-set visually, wants a teaching/walkthrough page for a diff, or asks "what does this PR actually do" as a visual learner.
+description: Generate a single-file interactive HTML page that teaches what a PR, branch, or diff changes — layered concept → flows → detail, with architecture, ERD, state-machine, sequence, transaction-boundary, and recovery/failure diagrams plus an animated step-through storyboard. Use when the user asks to explain a PR or change-set visually, wants a teaching/walkthrough page for a diff, or asks "what does this PR actually do" as a visual learner.
 ---
 
 # pr-explainer
@@ -10,8 +10,9 @@ The reader should finish knowing what changed, why, how the new behavior flows, 
 deliberately did not change — without opening the diff themselves.
 
 The explainer is a teaching artifact, not a review artifact: it tells the story of the
-merged state, in present tense. No "previously/now" migration narrative outside the
-explicit before/after panels.
+merged state, in present tense, through diagrams. Never render raw diffs or before/after
+diff panels — a diff is the input you read, not the output you teach with. No
+"previously/now" migration narrative outside an explicit before→after diagram pair.
 
 ## 1 — Gather the change-set
 
@@ -36,21 +37,34 @@ section that will teach it. No file may be unaccounted for — pure noise (lockf
 generated snapshots) goes to a one-line "mechanical changes" row rather than being
 dropped silently.
 
+Then choose diagrams from the SWE-analysis menu. Each row states when it is
+**required** — skipping a required diagram is a coverage failure:
+
+| Diagram | Mermaid type | Required when the PR touches |
+|---|---|---|
+| Architecture | `flowchart` | always — the one overview of touched components |
+| ERD | `erDiagram` | schema, migrations, or any data-model shape |
+| State machine | `stateDiagram-v2` | any status/phase/lifecycle field or FSM transition |
+| Sequence flow | `sequenceDiagram` | request, webhook, job, or cross-service interaction |
+| Transaction boundary | `flowchart` with subgraphs marking each DB-transaction scope | transactional writes, locks, guarded updates |
+| Recovery / failure view | `flowchart` or `sequenceDiagram` of the failure paths | retries, sweeps, timeouts, compensation, idempotency |
+
+State machines must be real ones: every state a node, every transition a labeled edge
+with its trigger/guard, new or changed transitions visually marked — not a flowchart
+with status names in boxes.
+
 Structure the page in three layers, in this order:
 
-1. **Concept** — what the PR does and why, in one short paragraph, plus one architecture
-   diagram of the touched components. Color-code: green = added, amber = changed,
-   red = removed; include a legend.
-2. **Flows** — one diagram per behavior the PR changes:
-   - state machines → Mermaid `stateDiagram-v2` (mark new/changed transitions),
-   - request/webhook/job interactions → Mermaid `sequenceDiagram`,
-   - the single most important scenario → an animated **storyboard**: a step-through
-     with Prev/Next controls that highlights the active node/edge and shows a short
-     narration line per step. One storyboard, for the scenario that best teaches the PR
-     — more only if the PR genuinely has two independent core flows.
+1. **Concept** — what the PR does and why, in one short paragraph, plus the
+   architecture diagram. Color-code: green = added, amber = changed, red = removed;
+   include a legend.
+2. **Flows** — every other diagram the menu requires, plus the single most important
+   scenario as an animated **storyboard**: a step-through with Prev/Next controls that
+   highlights the active node/edge and shows a short narration line per step. One
+   storyboard — more only if the PR genuinely has two independent core flows.
 3. **Detail** — changes grouped by concern (mirror the commit grouping when it is
-   clean). Each group: a two-or-three-sentence why, a mini-diagram only when it earns
-   its place, and a before/after diff panel (collapsed by default) for the key hunks.
+   clean). Each group: a few sentences of why, and a small annotated code snippet only
+   when prose and diagrams genuinely cannot carry it. No diff panels.
 
 Close with two short sections:
 
@@ -59,8 +73,8 @@ Close with two short sections:
 - **Check yourself** — 3–5 questions with click-to-reveal answers, each answerable from
   the page.
 
-Done when: the ledger has a section for every changed file and the storyboard scenario
-is chosen.
+Done when: the ledger has a section for every changed file, every required diagram from
+the menu is planned, and the storyboard scenario is chosen.
 
 ## 3 — Build the HTML
 
@@ -70,22 +84,32 @@ hand-rolling visuals — it reads better and costs fewer tokens:
 - **Mermaid** (v11, ESM CDN) for all diagrams. Keep each diagram under ~25 nodes;
   quote any label containing punctuation; wrap rendering in a try/catch that falls back
   to showing the diagram source in a `<pre>` so one bad diagram never blanks the page.
-- **diff2html** (CSS + JS CDN) for before/after panels. Embed the raw unified-diff hunks
-  in `<script type="text/plain">` blocks and render them — do not hand-format diffs.
-- **highlight.js** for standalone code snippets.
+- **highlight.js** for the rare annotated snippet.
 - Storyboard animation: CSS transitions driven by a small vanilla JS stepper
   (Prev/Next + keyboard arrows) that toggles an `.active` class on SVG nodes and
   narration lines. Reach for anime.js only when motion beyond class toggles genuinely
   teaches something.
 
-Page requirements:
+Layout — the page must breathe; crowding is a defect:
 
-- Sticky table of contents matching the three layers; sections land in ledger order.
+- **One diagram per section.** A section = heading, two-or-three-sentence lead-in, the
+  diagram at full width, then its narration. Never two diagrams sharing a viewport.
+- **Collapsible sidebar** table of contents (hamburger toggle, collapsed by default on
+  narrow screens) listing the three layers and every diagram section; the main column
+  takes the full remaining width.
+- Generous whitespace: comfortable section padding, max one idea per screenful.
+  Narration sits beside or directly under the visual it explains, never in a wall of
+  text.
+
+Style — match the Moyasar-docs look the reader already knows:
+
+- Font **Readex Pro** via the Google Fonts CDN (system-ui fallback); monospace stack
+  for code.
+- Primary accent `#4a5bc7`, clean docs-site aesthetic: white/near-black backgrounds,
+  subtle borders, no gradients or decoration that doesn't teach.
+- Respects `prefers-color-scheme`; readable in both modes.
 - Header: PR/branch title, base→head refs, files/insertions/deletions stats, and a
   one-line reading guide ("skim layer 1, play the storyboard, expand details as needed").
-- Respects `prefers-color-scheme`; readable in both modes.
-- Narration prose is short and sits beside the visual it explains, never in a wall of
-  text below it.
 
 ## 4 — Verify and deliver
 
@@ -94,8 +118,10 @@ Page requirements:
   The explainer is never committed.
 - Verify before handing over: load the file (browser tool if available, otherwise
   `open <file>` and check for rendering errors by re-reading the console/source). Fix
-  until Mermaid and diff2html render with zero errors.
-- Walk the coverage ledger once against the finished page: every row rendered.
+  until every Mermaid diagram renders with zero errors.
+- Walk the coverage ledger once against the finished page: every row rendered, every
+  required diagram present.
 
 Done when: the file opens clean and the final reply states the path plus a one-line
-coverage summary — "N changed files taught across M sections, storyboard: <scenario>".
+coverage summary — "N changed files taught across M sections, diagrams: <list>,
+storyboard: <scenario>".
