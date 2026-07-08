@@ -43,11 +43,22 @@ animated step-through storyboard of the key scenario, and diff2html before/after
 Built for visual learners; a coverage ledger guarantees every changed file is taught.
 Lives at [`skills/pr-explainer/`](skills/pr-explainer/).
 
-```
-npx skills add mr3od/skills
+Install with the [skills CLI](https://skills.sh) — global (all your repos), Claude Code + Codex:
+
+```bash
+npx skills add mr3od/skills -g --skill pr-explainer --agent claude-code codex -y
 ```
 
-The [skills CLI](https://skills.sh) installs it for Claude Code, Codex, and 70+ other agents.
+Variants:
+
+```bash
+npx skills add mr3od/skills -l                                     # list available skills
+npx skills add mr3od/skills --skill pr-explainer                   # project-level (run inside a repo)
+npx skills add mr3od/skills -g --skill pr-explainer --agent '*'    # every supported agent
+npx skills update -g                                               # pull future updates
+```
+
+Omitting `--skill` installs everything in this repo, including the `delivery` trio.
 Then ask: *"explain PR 42 visually"* or *"build a pr-explainer for this branch"*.
 
 ## Install
