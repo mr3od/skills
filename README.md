@@ -1,79 +1,66 @@
 # skills
 
-Each skill is one folder with a `SKILL.md`, installed with the [skills CLI](https://skills.sh) into Claude Code or any agent that reads skills from disk:
+[![skills.sh](https://www.skills.sh/b/mr3od/skills)](https://www.skills.sh/mr3od/skills)
+[![License](https://img.shields.io/github/license/mr3od/skills)](LICENSE)
+
+**A second pair of eyes for your coding agent.** A skill for getting a blind second opinion while you design, one for proving a screen actually works before you call it done, and a small crew for the review that comes after.
 
 ```bash
-npx skills add mr3od/skills -s <name> -a claude-code -y
+npx skills add mr3od/skills
 ```
 
-Layout follows mattpocock/skills and amelnagdy/delegate-skills: `skills/<name>/SKILL.md` with `references/`, `scripts/`, `assets/`, `agents/` and `evals/` beside it as needed; `skills/in-progress/` holds what has not run in a second repo yet.
+Pick the skills you want and the agents to install them on. They work in Claude Code and in any agent that reads skills from disk.
 
-## `grill-with-counterpart` (v0, in progress)
+## What's here
 
-One added step inside a [`grill-with-docs`](https://aihero.dev/skills-grill-with-docs) session:
-each frontier round is also answered blind by a second agent. The owner then sees every
-disagreement with both answers verbatim, and every agreement marked as two samples, unverified.
-Everything else is grilling as it already works.
+| Skill | What it does |
+| --- | --- |
+| [`behavior-proof`](skills/behavior-proof/SKILL.md) | Drives the running app in a browser against a contract you write first, and tells you pass, fail, blocked, out of scope or inconclusive, clause by clause. Source-blind: the agent that wrote the change never runs it. |
+| [`how`](skills/how/SKILL.md) | "How does X work?" A walkthrough of a subsystem at the level of a senior engineer onboarding onto it. |
+| [`why`](skills/why/SKILL.md) | "Why is it like this?" The rationale behind a decision, pulled from source control, the tracker, docs and chat, with citations. |
+| [`comment-sicko`](skills/comment-sicko/SKILL.md) | A comment-hating subagent. Feed it a diff and it deletes narration, banners and alibi comments, and flags the code that needed the prose in the first place. It never touches the code itself. |
+| [`grill-with-counterpart`](skills/in-progress/grill-with-counterpart/SKILL.md) | Inside a `grill-with-docs` session, a second agent answers each round of questions without seeing yours. You see where they disagree, in their own words, and where they agree, marked as unverified. In progress. |
 
-Why this shape: on a settled spec, two blind agents answering the round reached 10 of 16
-owner decisions between them; every disagreement held the right answer; half their agreements
-were wrong on facts only the owner had. Drafting the spec blind instead followed the loudest
-document and contradicted a quarter of the decisions. Those numbers came from two symmetric
-blind readers; the skill runs one counterpart against an orchestrator who writes its own answers
-down first. Whether that holds is what the per-run note measures. Write-ups in the author's notes.
+## How I use them
 
-Install:
+**Before I build.** I grill the design with [mattpocock's `grill-with-docs`](https://github.com/mattpocock/skills). With `grill-with-counterpart` on, every round also goes to a second agent that has not seen my answers. Where the two disagree, one of them is usually right and I get to pick with both arguments in front of me. Where they agree, I have learned not to trust it: two agents agreeing on something only I know is still wrong.
 
-```bash
-npx skills add mr3od/skills -g -s grill-with-counterpart -a claude-code -y
-npx skills add mattpocock/skills -s grill-with-docs grilling domain-modeling research -a claude-code -y
-npx skills add amelnagdy/delegate-skills -s agy-delegate claude-delegate -a claude-code -y
+```text
+/grill-with-counterpart claude-delegate
 ```
 
-Invoke inside a grilling session: `/grill-with-counterpart claude-delegate`.
+**Before I say a screen is done.** Tests pass and the button does nothing; it has happened to me. `behavior-proof` makes a fresh agent write down what "working" means first, then drive the app and prove it, with screenshots and the numbers printed off the page.
 
-Layout: `SKILL.md` is the six-step round; `assets/round-brief.md` is the brief the counterpart
-gets; `scripts/diff-round.py` pairs the two answer files by question and
-`scripts/cite-check.sh` says which cited `path:line`s exist at the pinned commit;
-`evals/evals.json` is the benchmark, built from the frontier evaluation, to rerun after every edit.
+```text
+Run behavior-proof on the upload screen. Contract first, then prove it.
+```
 
-It is versioned by use: after each run, one comment on the issue records deltas, agreements,
-struck citations and later-reversed decisions, and the skill is edited from that.
+**When I read a diff.** `comment-sicko` strips the comments that explain what the code should have said itself and points at the symbol to fix. `how` and `why` are what it reaches for when a comment claims something it cannot see; they are just as useful on their own.
 
-## `behavior-proof` (v1)
+```text
+Use comment-sicko on the diff against main.
+Use how on the enrollment pipeline before I touch it.
+Use why on the retry limit in the batch runner.
+```
 
-Source-blind proof that a screen change works for a user: a contract written before the run, the
-running app driven in a browser the way a user would, anti-cheat probes, evidence captured, and one of five outcomes
-per clause (pass, fail, blocked with a reason, out of scope, inconclusive). The black-box half of a
-pair with `code-review`. Generalised from a project skill with real runs behind it; the repo-specific setup stays in each
-repo behind a pointer in its agent docs.
+## Where they come from
 
-Install: `npx skills add mr3od/skills -g -s behavior-proof -a claude-code -y`, then run it as a fresh
-agent given only the contract and an address, never the agent that wrote the change.
+`how`, `why` and `comment-sicko` are ports of skills from [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Lauren Tan (MIT), rewritten to run in Claude Code and any harness rather than Cursor only. The reference prompts are hers, verbatim; the licence text ships inside each skill. `behavior-proof` is a skill I have used to gate real pull requests, with the project-specific setup taken out. `grill-with-counterpart` came out of measuring what a second agent actually adds to a design conversation; it is in `in-progress` until it has run in a second project.
 
-## `how` and `why`
+## Layout
 
-Harness-neutral ports of pstack's `how` (how does X work: architecture, runtime flow, where a thing
-should live) and `why` (why it is this way: rationale, regressions, thresholds, with cited evidence).
-The reference prompts are verbatim; the Cursor-specific mechanics (subagent config, model labels,
-MCP discovery) are replaced with wording any harness can run. MIT, Lauren Tan; the licence text
-ships inside each. `comment-sicko` runs both on a comment's claim when they are installed.
+```text
+skills/
+├── <name>/SKILL.md          # the skill
+│   ├── references/          # loaded on demand
+│   ├── scripts/             # deterministic helpers
+│   ├── assets/              # templates
+│   └── agents/              # a subagent the skill spawns
+└── in-progress/             # not yet run in a second project
+```
 
-Install: `npx skills add mr3od/skills -g -s how why -a claude-code -y`.
-
-## `comment-sicko`
-
-A comment-hating subagent: feed it a diff or files and it strips narration, banners, dead code and
-alibi comments, and flags the symbols whose behaviour needs a refactor instead of prose, as
-`MUST KILL`. Report only; it edits comments and never application code. Ported from
-[pstack](https://github.com/cursor/plugins/tree/main/pstack)'s Cursor agent (MIT, Lauren Tan) to a
-Claude Code agent: a tools line with `Skill`, Python suppressions, a docstring rule, and a hand hunt
-(callers, `git log -S`, `git blame`, the narrowest test) when the `how` and `why` skills are not
-loaded. Its MIT licence text ships beside it in `agents/LICENSE-comment-sicko`.
-
-Install: `npx skills add mr3od/skills -g -s comment-sicko -a claude-code -y`. The agent definition
-ships inside the skill under `agents/`; the skill spawns it on the diff in hand.
+Same shape as [mattpocock/skills](https://github.com/mattpocock/skills) and [delegate-skills](https://github.com/amElnagdy/delegate-skills).
 
 ## License
 
-MIT
+MIT. Ported skills carry their own notice inside.
