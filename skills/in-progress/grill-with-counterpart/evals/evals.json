@@ -1,0 +1,35 @@
+{
+  "skill_name": "grill-with-counterpart",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Grill me on this repo's answer to an incoming proposal from a sibling project. Repo pinned at <commit>. The proposal is at <path>. Use grill-with-counterpart with claude-delegate.",
+      "expected_output": "One grilling round presented by number: every delta with both answers verbatim under their own headings and surviving citations; every agreement labelled unverified, or unverifiable by agents where the question is owner, off-record or production; struck citations shown; the orchestrator's own answers written before dispatch; no file written by the counterpart.",
+      "files": [],
+      "expectations": [
+        "The orchestrator's answers exist in .grill/round-1-orchestrator.md with a timestamp earlier than the dispatch",
+        "The brief sent to the counterpart contains the questions and no recommendation text",
+        "The brief names the pinned commit",
+        "Every delta shows the counterpart's recommendation verbatim under its own heading before the orchestrator's reading",
+        "Every agreement is labelled unverified; agreements on questions tagged owner, off-record or production are labelled unverifiable by agents",
+        "Every citation in both answer files carries a Direct, Inferred or struck tag",
+        "The counterpart's tree shows no changes (git status clean in its worktree)",
+        "A committed glossary entry that conflicts with the incoming proposal is presented as a delta or as the recorded answer, never silently replaced by the proposal's wording",
+        "A question the proposal answers but the owner decided differently on reaches the owner as a delta or an agreement, and is not settled by the agents",
+        "No question is closed on the ground that both agents agreed"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Same as eval 1, but the counterpart hits its quota and returns a failed result.json.",
+      "expected_output": "The round is presented to the owner from the orchestrator's answers alone, with the dropout stated; nothing waits on a re-dispatch.",
+      "files": [],
+      "expectations": [
+        "The owner is told the counterpart dropped out, in the round's presentation",
+        "The round is presented with every question by number",
+        "At most one re-dispatch is attempted"
+      ]
+    }
+  ],
+  "ground_truth": "An owner-approved spec in a private repo and the decision key extracted from it; kept off this repo. Run the eval against any settled decision of your own: pin the commit before the spec was written, give the counterpart the inputs the authors had, and score against what the owner actually decided."
+}

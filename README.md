@@ -1,91 +1,45 @@
-# mr3od/skills
+# skills
 
-Public skills by **mr3od**. Portable by design: each skill is a **self-contained** set of
-instructions with no cross-file dependencies, so a single `SKILL.md` runs on **Claude Code**
-(as a plugin) and on **Codex** (or any agent) once dropped into its prompts. Where a skill
-benefits from an independent reviewer, it spawns a fresh-context subagent when the host
-supports one and does the same review inline when it doesn't — same checklist either way.
-
-## Plugins
-
-### `delivery` — planning → prioritizing → slicing
-
-One pipeline that carries a product idea to a shipped MVP, using nothing but Markdown in git.
-Skills live under [`skills/in-progress/`](skills/in-progress/) (v0.1 — still stabilizing).
-
-| Phase | Command | Does |
-|---|---|---|
-| Planning | `/delivery:planning <docs…>` | Captures everything, pins the value hypothesis |
-| | `/delivery:planning add <idea>` | Free capture, any time |
-| Prioritizing | `/delivery:prioritizing` | Draws and approves the MVP line, adversarially minimized |
-| | `/delivery:prioritizing promote <item>` | Crossing the line — the gate runs |
-| | `/delivery:prioritizing amend` | Building proved the line wrong |
-| Slicing | `/delivery:slicing plan` | Slice plan to MVP — or cut one at a time |
-| | `/delivery:slicing done <#>` | Slice demoed → items done, coverage report |
-
-**Output:** `delivery/BACKLOG.md` is the one stateful file — it carries the `Phase:` marker so
-any later run resumes where the project stands. `delivery/slices/NN-*.md` are stateless slice
-contracts, cheap to re-cut.
-
-**How it works:** capture is free and everything lands in `BACKLOG.md`; the MVP line is
-guarded and each item above it is attacked (below / manual / hardcode / merge) until only what
-value-creation fails without survives; then vertical slices — walking skeleton first — are cut
-and demoed until every above-the-line item is `done`. Each skill carries its own schema and
-review checklist, so nothing depends on a shared file.
-
-## Skills
-
-### `pr-explainer` — visual teaching page for any change-set
-
-Generates a single self-contained HTML page that teaches what a PR, branch, or diff does —
-layered concept → flows → detail through SWE-analysis diagrams (architecture, ERD, state
-machines, sequence flows, transaction boundaries, recovery/failure views) plus an animated
-step-through storyboard of the key scenario. One full-width diagram per section behind a
-collapsible sidebar, with clean developer-docs typography. No raw diffs — diagrams
-teach, diffs don't. Built for visual learners; a coverage ledger guarantees every changed
-file is taught.
-Lives at [`skills/pr-explainer/`](skills/pr-explainer/).
-
-Install with the [skills CLI](https://skills.sh) — global (all your repos), Claude Code + Codex:
+Each skill is one folder with a `SKILL.md`, installed with the [skills CLI](https://skills.sh) into Claude Code or any agent that reads skills from disk:
 
 ```bash
-npx skills add mr3od/skills -g --skill pr-explainer --agent claude-code codex -y
+npx skills add mr3od/skills -s <name> -a claude-code -y
 ```
 
-Variants:
+Layout follows mattpocock/skills and amelnagdy/delegate-skills: `skills/<name>/SKILL.md` with `references/`, `scripts/`, `assets/`, `agents/` and `evals/` beside it as needed; `skills/in-progress/` holds what has not run in a second repo yet.
+
+## `grill-with-counterpart` (v0, in progress)
+
+One added step inside a [`grill-with-docs`](https://aihero.dev/skills-grill-with-docs) session:
+each frontier round is also answered blind by a second agent. The owner then sees every
+disagreement with both answers verbatim, and every agreement marked as two samples, unverified.
+Everything else is grilling as it already works.
+
+Why this shape: on a settled spec, two blind agents answering the round reached 10 of 16
+owner decisions between them; every disagreement held the right answer; half their agreements
+were wrong on facts only the owner had. Drafting the spec blind instead followed the loudest
+document and contradicted a quarter of the decisions. Those numbers came from two symmetric
+blind readers; the skill runs one counterpart against an orchestrator who writes its own answers
+down first. Whether that holds is what the per-run note measures. Write-ups in the author's notes.
+
+Install:
 
 ```bash
-npx skills add mr3od/skills -l                                     # list available skills
-npx skills add mr3od/skills --skill pr-explainer                   # project-level (run inside a repo)
-npx skills add mr3od/skills -g --skill pr-explainer --agent '*'    # every supported agent
-npx skills update -g                                               # pull future updates
+npx skills add mr3od/skills -g -s grill-with-counterpart -a claude-code -y
+npx skills add mattpocock/skills -s grill-with-docs grilling domain-modeling research -a claude-code -y
+npx skills add amelnagdy/delegate-skills -s agy-delegate claude-delegate -a claude-code -y
 ```
 
-Omitting `--skill` installs everything in this repo, including the `delivery` trio.
-Then ask: *"explain PR 42 visually"* or *"build a pr-explainer for this branch"*.
+Invoke inside a grilling session: `/grill-with-counterpart claude-delegate`.
 
-## Install
+Layout: `SKILL.md` is the six-step round; `assets/round-brief.md` is the brief the counterpart
+gets; `scripts/diff-round.py` pairs the two answer files by question and
+`scripts/cite-check.sh` says which cited `path:line`s exist at the pinned commit;
+`evals/evals.json` is the benchmark, built from the frontier evaluation, to rerun after every edit.
 
-### Claude Code
-
-```
-/plugin marketplace add mr3od/skills
-/plugin install delivery
-```
-
-### Codex (and other agents)
-
-Each skill is self-contained, so copy the phase files into your Codex prompts directory and
-invoke them as slash prompts:
-
-```
-cp skills/in-progress/planning/SKILL.md      ~/.codex/prompts/delivery-planning.md
-cp skills/in-progress/prioritizing/SKILL.md  ~/.codex/prompts/delivery-prioritizing.md
-cp skills/in-progress/slicing/SKILL.md       ~/.codex/prompts/delivery-slicing.md
-```
-
-Then invoke `/delivery-planning`, etc. Nothing else needs to travel with the file.
+It is versioned by use: after each run, one comment on the issue records deltas, agreements,
+struck citations and later-reversed decisions, and the skill is edited from that.
 
 ## License
 
-MIT © mr3od
+MIT
