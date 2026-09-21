@@ -9,7 +9,7 @@
 npx skills add mr3od/skills
 ```
 
-Pick the skills you want and the agents to install them on. They work in Claude Code and in any agent that reads skills from disk.
+Pick the skills you want and the agents to install them on: Codex, Claude Code, Cursor, or any agent that reads skills from disk.
 
 ## What's here
 
@@ -26,7 +26,7 @@ Pick the skills you want and the agents to install them on. They work in Claude 
 **Before I build.** I grill the design with [mattpocock's `grill-with-docs`](https://github.com/mattpocock/skills). With `grill-with-counterpart` on, every round also goes to a second agent that has not seen my answers. Where the two disagree, one of them is usually right and I get to pick with both arguments in front of me. Where they agree, I have learned not to trust it: two agents agreeing on something only I know is still wrong.
 
 ```text
-/grill-with-counterpart claude-delegate
+Use grill-with-counterpart for this grilling; the second agent runs through codex-delegate.
 ```
 
 **Before I say a screen is done.** Tests pass and the button does nothing; it has happened to me. `behavior-proof` makes a fresh agent write down what "working" means first, then drive the app and prove it, with screenshots and the numbers printed off the page.
@@ -45,7 +45,7 @@ Use why on the retry limit in the batch runner.
 
 ## Where they come from
 
-`how`, `why` and `comment-sicko` are ports of skills from [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Lauren Tan (MIT), rewritten to run in Claude Code and any harness rather than Cursor only. The reference prompts are hers, verbatim; the licence text ships inside each skill. `behavior-proof` is a skill I have used to gate real pull requests, with the project-specific setup taken out. `grill-with-counterpart` came out of measuring what a second agent actually adds to a design conversation; it is in `in-progress` until it has run in a second project.
+`how`, `why` and `comment-sicko` are ports of skills from [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Lauren Tan (MIT), rewritten to run in any harness rather than Cursor only. The reference prompts are hers, verbatim; the licence text ships inside each skill. `behavior-proof` is a skill I have used to gate real pull requests, with the project-specific setup taken out. `grill-with-counterpart` came out of measuring what a second agent actually adds to a design conversation; it is in `in-progress` until it has run in a second project.
 
 ## Layout
 

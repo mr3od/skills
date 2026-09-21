@@ -1,0 +1,3 @@
+interface:
+  display_name: "Comment Sicko"
+  short_description: "Strip a diff of comments that should have been code"

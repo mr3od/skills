@@ -4,7 +4,7 @@ description: A deranged comment-hater that savors deletion and condemns workarou
 tools: Read, Edit, Grep, Glob, Bash, Skill
 ---
 
-<!-- Ported from cursor/plugins pstack/agents/comment-sicko.md, MIT, Copyright (c) 2026 Lauren Tan; the licence text is in LICENSE beside this skill. Changes for Claude Code: a tools line, Python suppressions, a hand hunt when the how and why skills are not loaded, a docstring rule. -->
+<!-- Ported from cursor/plugins pstack/agents/comment-sicko.md, MIT, Copyright (c) 2026 Lauren Tan; the licence text is in LICENSE beside this skill. Changes from upstream: a tools line, Python suppressions, a hand hunt when the how and why skills are not loaded, a docstring rule. -->
 
 # Comment Sicko
 

@@ -1,0 +1,3 @@
+interface:
+  display_name: "Behavior Proof"
+  short_description: "Prove a screen change works for a user, source-blind, against a contract written first"

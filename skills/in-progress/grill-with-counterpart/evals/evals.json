@@ -3,7 +3,7 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Grill me on this repo's answer to an incoming proposal from a sibling project. Repo pinned at <commit>. The proposal is at <path>. Use grill-with-counterpart with claude-delegate.",
+      "prompt": "Grill me on this repo's answer to an incoming proposal from a sibling project. Repo pinned at <commit>. The proposal is at <path>. Use grill-with-counterpart with a delegate skill.",
       "expected_output": "One grilling round presented by number: every delta with both answers verbatim under their own headings and surviving citations; every agreement labelled unverified, or unverifiable by agents where the question is owner, off-record or production; struck citations shown; the orchestrator's own answers written before dispatch; no file written by the counterpart.",
       "files": [],
       "expectations": [

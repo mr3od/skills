@@ -1,0 +1,5 @@
+interface:
+  display_name: "Grill With Counterpart"
+  short_description: "A grilling round answered blind by a second agent"
+policy:
+  allow_implicit_invocation: false

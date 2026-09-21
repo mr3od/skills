@@ -2,7 +2,7 @@
 name: grill-with-counterpart
 description: "A grill-with-docs round answered blind by a second agent; the owner sees the deltas verbatim and the agreements as unverified."
 disable-model-invocation: true
-argument-hint: "[delegate skill: agy-delegate | claude-delegate]"
+argument-hint: "[delegate skill that runs the second agent, e.g. codex-delegate]"
 compatibility: grill-with-docs, grilling, domain-modeling and research from mattpocock/skills; one delegate skill from amelnagdy/delegate-skills whose own prerequisite check passes.
 ---
 

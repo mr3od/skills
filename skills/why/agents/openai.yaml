@@ -1,0 +1,5 @@
+interface:
+  display_name: "Why"
+  short_description: "Find the rationale behind a decision, with cited evidence"
+policy:
+  allow_implicit_invocation: false
