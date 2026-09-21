@@ -61,6 +61,19 @@ ships inside each. `comment-sicko` runs both on a comment's claim when they are 
 
 Install: `npx skills add mr3od/skills -g -s how why -a claude-code -y`.
 
+## `comment-sicko`
+
+A comment-hating subagent: feed it a diff or files and it strips narration, banners, dead code and
+alibi comments, and flags the symbols whose behaviour needs a refactor instead of prose, as
+`MUST KILL`. Report only; it edits comments and never application code. Ported from
+[pstack](https://github.com/cursor/plugins/tree/main/pstack)'s Cursor agent (MIT, Lauren Tan) to a
+Claude Code agent: a tools line with `Skill`, Python suppressions, a docstring rule, and a hand hunt
+(callers, `git log -S`, `git blame`, the narrowest test) when the `how` and `why` skills are not
+loaded. Its MIT licence text ships beside it in `agents/LICENSE-comment-sicko`.
+
+Install: `npx skills add mr3od/skills -g -s comment-sicko -a claude-code -y`. The agent definition
+ships inside the skill under `agents/`; the skill spawns it on the diff in hand.
+
 ## License
 
 MIT
