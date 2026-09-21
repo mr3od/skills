@@ -51,6 +51,16 @@ repo behind a pointer in its agent docs.
 Install: `npx skills add mr3od/skills -g -s behavior-proof -a claude-code -y`, then run it as a fresh
 agent given only the contract and an address, never the agent that wrote the change.
 
+## `how` and `why`
+
+Harness-neutral ports of pstack's `how` (how does X work: architecture, runtime flow, where a thing
+should live) and `why` (why it is this way: rationale, regressions, thresholds, with cited evidence).
+The reference prompts are verbatim; the Cursor-specific mechanics (subagent config, model labels,
+MCP discovery) are replaced with wording any harness can run. MIT, Lauren Tan; the licence text
+ships inside each. `comment-sicko` runs both on a comment's claim when they are installed.
+
+Install: `npx skills add mr3od/skills -g -s how why -a claude-code -y`.
+
 ## License
 
 MIT
