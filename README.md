@@ -55,7 +55,7 @@ skills/
 │   ├── references/          # loaded on demand
 │   ├── scripts/             # deterministic helpers
 │   ├── assets/              # templates
-│   └── agents/              # a subagent the skill spawns
+│   └── agents/              # harness metadata, and a subagent when the skill spawns one
 └── in-progress/             # not yet run in a second project
 ```
 
