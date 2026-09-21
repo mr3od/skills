@@ -40,6 +40,17 @@ gets; `scripts/diff-round.py` pairs the two answer files by question and
 It is versioned by use: after each run, one comment on the issue records deltas, agreements,
 struck citations and later-reversed decisions, and the skill is edited from that.
 
+## `behavior-proof` (v1)
+
+Source-blind proof that a screen change works for a user: a contract written before the run, the
+running app driven in a browser the way a user would, anti-cheat probes, evidence captured, and one of five outcomes
+per clause (pass, fail, blocked with a reason, out of scope, inconclusive). The black-box half of a
+pair with `code-review`. Generalised from a project skill with real runs behind it; the repo-specific setup stays in each
+repo behind a pointer in its agent docs.
+
+Install: `npx skills add mr3od/skills -g -s behavior-proof -a claude-code -y`, then run it as a fresh
+agent given only the contract and an address, never the agent that wrote the change.
+
 ## License
 
 MIT
