@@ -20,7 +20,7 @@ Without a file, ask once, in one message, for all three roles. Offer the suggest
 
 List the models your harness reports as available and read the quota or rate-limit state for each. Offer a model only when both say it can run now. Done when each offered model has an availability answer from this session.
 
-When a pick hits a rate limit mid-session, tell the owner the time to reset and offer the next available pick. Record the change in your notes. Done when the owner's answer is recorded before the next brief goes out. Why: one rate-limit stall held a ticket for 74 minutes while no one chose a substitute.
+When a pick hits a rate limit mid-session, tell the owner the time to reset and offer the next available pick. Record the change in your notes. Done when the owner's answer is recorded before the next brief goes out. Why: a rate-limit stall held a ticket until someone chose a substitute.
 
 ## Suggested pairing
 
