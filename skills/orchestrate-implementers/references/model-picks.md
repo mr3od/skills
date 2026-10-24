@@ -4,15 +4,15 @@ The owner decides which model plays which role. You collect the decision once pe
 
 ## Picks file
 
-The owner keeps a short file, named in the project rules file. Any format works if each role has a model and an effort:
+The owner keeps a short file, named in the project rules file. Any format works if each role has a model, the harness that runs it, and an effort:
 
 ```text
-implementer: <model and version> · effort <level>
-reviewer: <model and version> · effort <level>
-second reviewer: <model and version> · effort <level>
+implementer: <model and version> · <harness> · effort <level>
+reviewer: <model and version> · <harness> · effort <level>
+second reviewer: <model and version> · <harness> · effort <level>
 ```
 
-A ticket override is one more line: `ticket <id> implementer: <model> · effort <level>`. It applies to that ticket only.
+A ticket override is one more line: `ticket <id> implementer: <model> · <harness> · effort <level>`. It applies to that ticket only.
 
 Without a file, ask once, in one message, for all three roles. Offer the suggestion below as a default the owner can accept with one word.
 
@@ -32,6 +32,6 @@ Offer this as a suggestion. The owner's picks win.
 
 ## Record
 
-Keep a "Picks" block in your coordination notes: the three roles, the effort for each, the date, and any ticket overrides. Copy it into every brief and handoff. Done when the block in a handoff matches the notes.
+Keep a "Picks" block in your coordination notes: the three roles, the harness and effort for each, the date, and any ticket overrides. Copy it into every brief and handoff. Done when the block in a handoff matches the notes.
 
-Write the model with its version and the effort in the ledger's "Found by" column and in each post signature, so a finding traces to the run that made it.
+Write the model with its version, the harness and the effort in the ledger's columns, in each post signature and in the PR's closing attribution line, so a finding traces to the run that made it.
