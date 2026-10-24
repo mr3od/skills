@@ -1,0 +1,3 @@
+interface:
+  display_name: "Orchestrate Implementers"
+  short_description: "Run implementer and reviewer agents from ticket to merge: model picks, briefs, review rounds"
