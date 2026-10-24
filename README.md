@@ -19,7 +19,7 @@ Pick the skills you want and the agents to install them on: Codex, Claude Code, 
 | [`how`](skills/how/SKILL.md) | "How does X work?" A walkthrough of a subsystem at the level of a senior engineer onboarding onto it. |
 | [`why`](skills/why/SKILL.md) | "Why is it like this?" The rationale behind a decision, pulled from source control, the tracker, docs and chat, with citations. |
 | [`comment-sicko`](skills/comment-sicko/SKILL.md) | A comment-hating subagent. Feed it a diff and it deletes narration, banners and alibi comments, and flags the code that needed the prose in the first place. It never touches the code itself. |
-| [`orchestrate-implementers`](skills/orchestrate-implementers/SKILL.md) | The coordinator's rules for running implementer and reviewer agents from ticket to merge: you pick the models once, it briefs each child agent, sends review rounds in parallel, keeps a review ledger on the PR, and tells you the measured cost of every choice it asks you to make. |
+| [`orchestrate-implementers`](skills/orchestrate-implementers/SKILL.md) | The coordinator's rules for running implementer and reviewer agents from ticket to merge: you pick the models once, it briefs each child agent, sends review rounds in parallel, keeps findings as resolvable review comments on the PR, and tells you the measured cost of every choice it asks you to make. |
 | [`grill-with-counterpart`](skills/in-progress/grill-with-counterpart/SKILL.md) | Inside a `grill-with-docs` session, a second agent answers each round of questions without seeing yours. You see where they disagree, in their own words, and where they agree, marked as unverified. In progress. |
 
 ## How I use them
@@ -44,7 +44,7 @@ Use how on the enrollment pipeline before I touch it.
 Use why on the retry limit in the batch runner.
 ```
 
-**When I hand tickets to agents.** `orchestrate-implementers` is the coordinator's side of it. It asks me once which models build and which review, then briefs each child agent, starts every reviewer in one turn, and merges when the review ledger has no open row.
+**When I hand tickets to agents.** `orchestrate-implementers` is the coordinator's side of it. It asks me once which models build and which review, then briefs each child agent, starts every reviewer in one turn, and merges when no review thread is left unresolved.
 
 ```text
 Use orchestrate-implementers for tickets 12 and 14. Picks are in docs/agents/picks.md.
