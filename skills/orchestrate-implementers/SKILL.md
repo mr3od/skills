@@ -36,7 +36,13 @@ Why: a pick that was out of quota stalled a ticket until someone chose a substit
 
 Write each brief per the `writing-for-agents` skill: positive targets, one checkable completion criterion per step, and pointers to files instead of restated rules.
 
-A brief names the ticket, PR, branch, worktree, head SHA, the picks, the owner's decisions so far, and the files that hold the standing rules. Done when a reader with no other context could start work from it.
+A brief names the ticket, PR, branch, worktree, head SHA, the picks, the owner's decisions so far, and the files that hold the standing rules. It also carries three fields:
+
+- `TIMEBOX`: a cap on runtime, after which the child returns partial findings and stops.
+- `FORBIDDEN`: the actions out of scope, for example merging, rebasing, force-pushing or fixing outside the ticket.
+- `REPORT`: status, branch, head SHA, PR, what the child actually ran, and deviations.
+
+Done when a reader with no other context could start work from the brief and no field is missing. A missing field means you do not spawn. Why: a child without a cap runs on, and a child without a report shape returns what it felt like.
 
 - Ask for a draft PR at the first push, with the closing keyword for the ticket. A child often cannot message you mid-run, so the draft PR is the signal. Done when the brief says so. Why: reviewers that run in parallel with the gate and proof take review time off the critical path.
 - Ask each fix round for targeted tests on each fix and one full gate on the round's final head. Done when the gate log shows one full run at that head. Why: a full gate after every fix multiplies runner time, and most of those runs are superseded by the next push.
@@ -44,9 +50,9 @@ A brief names the ticket, PR, branch, worktree, head SHA, the picks, the owner's
 
 ## Send to a thread
 
-1. Read when the thread's last turn ended. Done when you have the time.
-2. If it ended within your harness's prompt-cache lifetime, less a safety margin, send in the thread. Otherwise start a fresh child with the same model and effort and a self-contained handoff brief. Done when the message reaches a warm thread or a new child. Why: a late resume re-reads the whole thread uncached.
-3. Hold one queued message per child. To add to it, edit it. Done when the child's queue length is one. Why: each extra queued message makes its own task card, so two agents showed a card each per message.
+1. For an implementer, read when its last turn ended. If that is within your harness's prompt-cache lifetime, less a safety margin, send in the thread. Otherwise start a fresh child with the same model and effort and a self-contained handoff brief. Done when the message reaches a warm thread or a new child. Why: a late resume re-reads the whole thread uncached.
+2. Start each review round as a new child. Brief it with the original brief, the prior findings, the replies and the open objections. In a harness like T3's, call `delegate_task` again each round, since the child thread is backing storage, not the target of another round. Done when each round's reviewers are new children and the brief lists those four items. Why: a reused reviewer anchors on its own earlier verdicts.
+3. Hold one queued message per child. To add to it, edit it. Done when the child's queue length is one. Why: each extra queued message makes its own task card.
 
 ## Before a heavy start
 

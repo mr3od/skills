@@ -16,9 +16,14 @@ A ticket override is one more line: `ticket <id> implementer: <model> · <harnes
 
 Without a file, ask once, in one message, for all three roles. Offer the suggestion below as a default the owner can accept with one word.
 
-## Check availability
+## Spawn with the picks
 
-List the models your harness reports as available and read the quota or rate-limit state for each. Offer a model only when both say it can run now. Done when each offered model has an availability answer from this session.
+A pick is a spawn parameter, not a sentence in the brief.
+
+1. Read the harness's live capability list: its models, their efforts and their quota or rate-limit state. Offer a model only when it can run now.
+2. Pass the model, the harness and the effort as the harness's model options at spawn.
+3. Check the spawn result against the pick: the harness, the model and the options it echoes. Done when all three match, or the difference is recorded.
+4. If the harness rejects an effort, use the role's default effort and say so to the owner. The ledger records what actually ran, not what you asked for. Why: a pick that is rejected or ignored without notice leaves a ledger naming a run that never happened.
 
 When a pick hits a rate limit mid-session, tell the owner the time to reset and offer the next available pick. Record the change in your notes. Done when the owner's answer is recorded before the next brief goes out. Why: a rate-limit stall held a ticket until someone chose a substitute.
 

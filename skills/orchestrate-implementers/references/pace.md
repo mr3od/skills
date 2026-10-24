@@ -41,3 +41,9 @@ Cap concurrent agent runs and heavy processes in the rules file, and reap idle a
 Done when the rules file states the cap and the idle limit.
 
 Why: bursts of concurrent agents, browsers and test workers got processes killed for memory on a small host.
+
+## Failure handling
+
+- **A child drops out.** Stop it, confirm it stopped, and retry once with the same brief. A second miss is recorded as a gap in your notes and the PR, and the work carries on without that child. Done when the notes name the child, the retry and the outcome. Why: a dead child that no one stopped keeps its slot and its queue, and a wait on it never ends.
+- **A child asks a blocking question.** Answer from the brief and the standing rules if they cover it. Otherwise put the question to the owner with the cost of each option, and tell the child you are waiting. Done when the child has an answer or a stated wait. Why: a child left with an open question guesses.
+- **A review gate cannot close.** Mark it `BLOCKED: independent review` with the reason, for example no reviewer was available or both failed twice. The PR does not merge on a self-review. Done when the PR body names the blocked gate and its reason. Why: a gate quietly dropped looks the same as a gate passed.
