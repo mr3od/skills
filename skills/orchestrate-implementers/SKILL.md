@@ -38,7 +38,7 @@ Write each brief per the `writing-for-agents` skill: positive targets, one check
 
 A brief names the ticket, PR, branch, worktree, head SHA, the picks, the owner's decisions so far, and the files that hold the standing rules. Done when a reader with no other context could start work from it.
 
-- Ask for a draft PR at the first push, with the closing keyword for the ticket, and a report `review-ready <pr> <sha>`. Done when the report names a SHA. Why: reviewers started in parallel with the gate and proof saved 25 to 45 minutes per PR.
+- Ask for a draft PR at the first push, with the closing keyword for the ticket. A child often cannot message you mid-run, so the draft PR is the signal. Done when the brief says so. Why: reviewers started in parallel with the gate and proof saved 25 to 45 minutes per PR.
 - Ask each fix round for targeted tests on each fix and one full gate on the round's final head. Done when the gate log shows one full run at that head. Why: 12 of 21 gate runs in one sample were avoidable.
 - Ask that each new test fails with the guarded behavior reverted. Done when the implementer names the revert it tried. Why: a modal test passed with its guard removed.
 
@@ -54,6 +54,7 @@ Compare free memory and the running gates, proofs and agents against the budget 
 
 ## Review rounds
 
+- While an implementer runs, check its branch for a draft PR on each wait (`gh pr list --head <branch> --json number,isDraft,headRefOid`). When one appears, start both reviewers on that head. An explicit message from the child is an optional extra where the harness supports it. Done when the check ran on every wait and reviewers started on the first draft head.
 - Start every reviewer for the round in the turn the PR URL appears. Done when all starts share one turn. Why: reviewers posted 19 to 40 minutes after launch, so starting them one by one doubled the wait.
 - End each turn on a PR in review or fix with a wait on its implementer. Done when no PR in flight lacks a pending wait. Why: coordinator idle time was 172 of 314 minutes on one PR, including 105 minutes with the PR green and unmerged.
 - Merge in the turn the last gate is green at the head and the ledger has no open row. `references/ledger.md` defines the rows and statuses.
