@@ -18,12 +18,12 @@ Without a file, ask once, in one message, for all three roles. Offer the suggest
 
 ## Spawn with the picks
 
-A pick is a spawn parameter, not a sentence in the brief.
+A pick is a spawn option, not a sentence in the brief.
 
 1. Read the harness's live capability list: its models, their efforts and their quota or rate-limit state. Offer a model only when it can run now.
 2. Pass the model, the harness and the effort as the harness's model options at spawn.
 3. Check the spawn result against the pick: the harness, the model and the options it echoes. Done when all three match, or the difference is recorded.
-4. If the harness rejects an effort, use the role's default effort and say so to the owner. The ledger records what actually ran, not what you asked for. Why: a pick that is rejected or ignored without notice leaves a ledger naming a run that never happened.
+4. If the harness rejects an effort, use the role's default effort and say so to the owner. The signatures and the attribution line record what actually ran, not what you asked for. Why: a pick that is rejected or ignored without notice leaves a record naming a run that never happened.
 
 When a pick hits a rate limit mid-session, tell the owner the time to reset and offer the next available pick. Record the change in your notes. Done when the owner's answer is recorded before the next brief goes out. Why: a rate-limit stall held a ticket until someone chose a substitute.
 
@@ -39,4 +39,4 @@ Offer this as a suggestion. The owner's picks win.
 
 Keep a "Picks" block in your coordination notes: the three roles, the harness and effort for each, the date, and any ticket overrides. Copy it into every brief and handoff. Done when the block in a handoff matches the notes.
 
-Write the model with its version, the harness and the effort in the ledger's columns, in each post signature and in the PR's closing attribution line, so a finding traces to the run that made it.
+Write the model with its version, the harness and the effort in each post signature and in the PR's closing attribution line, so a finding traces to the run that made it.
