@@ -29,6 +29,10 @@ Reviewers start each inline comment and each finding with its tag. Replies quote
 
 Owner rows leave model, harness and effort empty.
 
+## Fan-in
+
+Each reviewer returns one verdict, `PASS`, `ISSUES` or `BLOCKED`, with evidence: the command run, the output, the file and line. A reviewer that can prove a defect lists every defect it can prove, not only the first. The coordinator summarizes the returns into ledger rows and leaves raw reports out of the PR body. Done when every row traces to a returned report and the PR body holds no pasted report.
+
 ## Statuses
 
 - `open`: not yet handled. Counts as open.
@@ -52,12 +56,14 @@ When the coordinator posts a reviewer's findings, the role is still the reviewer
 
 ## Closing attribution
 
-When an agent did the work, the PR body ends with the model and harness that did it. Name the effort and the reviewers when more than one model took part. Short form:
+When an agent did the work, the PR body ends with one line that separates who wrote the code from who reviewed it. Each side names its model and harness, and its effort when you know it. Projects can read this line for policy, so keep the two roles apart.
 
-`Model: Model A 1.2. Harness: Harness X.`
+Short form:
+
+`Written by: Model A 1.2, Harness X. Reviewed by: Model B 3.0, Harness Y.`
 
 Fuller form:
 
-`Implemented with Model A 1.2 at high effort through Harness X, with independent review by Model B 3.0 at xhigh effort and Model C 2.1 at high effort.`
+`Written by Model A 1.2 at high effort through Harness X. Reviewed independently by Model B 3.0 at xhigh effort and Model C 2.1 at high effort.`
 
-Done when the line matches the picks recorded for the session and any ticket override.
+Done when the written-by side names the implementer and the reviewed-by side names each reviewer, matching the picks recorded for the session and any ticket override.

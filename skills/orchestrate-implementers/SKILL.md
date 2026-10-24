@@ -1,6 +1,6 @@
 ---
 name: orchestrate-implementers
-description: "Use when you hand a ticket to a child agent, send a review or fix round to a thread, choose implementer and reviewer models for a session, tell the owner why work waits or runs slow, or ask the owner to decide. Coordinates implementer and reviewer agents from ticket to merge."
+description: "Use when you hand a ticket to a child agent, send a review or fix round to a thread, choose implementer and reviewer models for a session, tell the owner why work waits or runs slow, or ask the owner to decide. Coordinates implementer and reviewer agents from ticket to merge. Skip it for a single inline task with no child agents."
 license: MIT
 metadata:
   version: "1.0.0"
@@ -62,7 +62,7 @@ Compare free memory and the running gates, proofs and agents against the budget 
 
 - While an implementer runs, check its branch for a draft PR on each wait (`gh pr list --head <branch> --json number,isDraft,headRefOid`). When one appears, start both reviewers on that head. An explicit message from the child is an optional extra where the harness supports it. Done when the check ran on every wait and reviewers started on the first draft head.
 - Start every reviewer for the round in the turn the PR URL appears. Done when all starts share one turn. Why: reviewers return on their own schedules, so starting them one by one adds the waits together.
-- End each turn on a PR in review or fix with a wait on its implementer. Done when no PR in flight lacks a pending wait. Why: coordinator idle time was the largest share of PR-to-merge time in one measured project, including a PR that sat green and unmerged.
+- End each turn on a PR in review or fix with a wait on its implementer. Where the harness has a PR watcher (T3's `watch_pull_request`), use it for checks, comments and conflicts and end the turn, and keep the branch check above for draft creation, which watchers do not cover. Done when no PR in flight lacks a pending wait or a watch. Why: coordinator idle time was the largest share of PR-to-merge time in one measured project, including a PR that sat green and unmerged.
 - Merge in the turn the last gate is green at the head and the ledger has no open row. `references/ledger.md` defines the tags, rows, statuses, signature and closing attribution line.
 - Run a second review round at the fix head. Done when every reviewer has posted at that SHA. Why: a second round at the fix head catches defects that round one missed or the fixes introduced.
 - Reproduce a pushback before you accept it. Done when you ran the test at the boundary the finding names, or read the code path. Why: a boundary test passed only at the hour it ran, and the coordinator accepted the pushback.
@@ -76,6 +76,7 @@ Compare free memory and the running gates, proofs and agents against the budget 
 
 ## Questions to the owner
 
+- Give each question a default that applies if the owner does not answer, and say when it applies. Done when every question states its default and you carry on with it at that point. Why: an open question stalls every ticket behind it.
 - Give each option its measured cost: time, review rounds, speed at the ticket's scale, or lines of code. Done when no option lacks one. Why: answers came back as "I do not know the cost".
 - Run any prototype, chart or page you show the owner, and click each control, before you publish it. When the preferred preview fails, drive the file in a headless browser. Done when each control has been clicked once. Why: a variable named `open` broke every click, and the owner found it.
 
