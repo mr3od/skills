@@ -52,8 +52,12 @@ When the coordinator posts a reviewer's findings, the role is still the reviewer
 
 ## Closing attribution
 
-The PR body ends with one line naming the model, harness and effort that did the work, and the same for each reviewer:
+When an agent did the work, the PR body ends with the model and harness that did it. Name the effort and the reviewers when more than one model took part. Short form:
 
-`Built by Model A 1.2 on Harness X, effort high. Reviewed by Model B 3.0 on Harness Y, effort medium, and Model C 2.1 on Harness Z, effort high.`
+`Model: Model A 1.2. Harness: Harness X.`
+
+Fuller form:
+
+`Implemented with Model A 1.2 at high effort through Harness X, with independent review by Model B 3.0 at xhigh effort and Model C 2.1 at high effort.`
 
 Done when the line matches the picks recorded for the session and any ticket override.
